@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <%= t.include("partials/_head.html", grunt.data.json) %>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+
+    <responsive-child>
+      <main class="interactive">
+        <h3>Amazon vs the next <%= csv.realestate.length - 1 %> companies</h3>
+
+        <div class="tree-container">
+          <svg class="tree-map"></svg>
+          <div class="details"></div>
+        </div>
+      </main>
+    </responsive-child>
+
+    <script>
+window.offices = <%= JSON.stringify(csv.realestate) %>;
+    </script>
+
+    <script src="app.js" async></script>
+    <% if (json.project.production) { %>
+    <%= !json.project.embedded ? t.include("partials/_analytics.html") : "" %>
+    <%= t.include("partials/_workHere.html") %>
+    <% } %>
+  </body>
+</html>

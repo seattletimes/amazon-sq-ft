@@ -1,0 +1,145 @@
+@import "seattletimes";
+
+main.interactive {
+  max-width: 630px;
+}
+
+.output {
+  position: relative;
+}
+
+.re-collapse {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: 1px solid @df-light-gray;
+  border-radius: 0;
+  background: white;
+  padding: 4px 8px;
+
+  @media @mobile {
+    position: static;
+    display: block;
+    margin: auto;
+  }
+
+  &:hover, &:focus {
+    background: @df-light-gray;
+  }
+}
+
+.bar-container {
+  clear: left;
+  .display-flex();
+
+  .bar {
+    height: 16px;
+    background: @st-light-blue;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  &:nth-child(2n) .bar {
+    background: @st-dark-blue;
+  }
+
+  .detail {
+    display: inline-block;
+    color: @df-dark-gray;
+    font-size: 15px;
+    transition: opacity .2s linear;
+    padding-left: 10px;
+  }
+
+  &.amazon {
+    display: block;
+
+    .bar {
+      display: block;
+    }
+  }
+}
+
+.collapsed {
+  .detail {
+    display: none;
+  }
+
+  .bar-container {
+    clear: none;
+    display: block;
+  }
+
+  .bar {
+    float: left;
+  }
+
+  .re-collapse {
+    display: none;
+  }
+}
+
+.faded {
+  .detail {
+    opacity: 0;
+  }
+}
+
+svg.tree-map {
+  .company {
+    transition: all .1s linear;
+  }
+
+  .binary-group {
+    overflow: visible;
+
+    &:hover, &:focus {
+
+      & > .company {
+        fill: @df-blue !important;
+      }
+    }
+  }
+
+  text {
+    font-size: 200px;
+    fill: white;
+    font-weight: bold;
+  }
+}
+
+.tree-container {
+  position: relative;
+
+  .details {
+    display: block;
+    position: absolute;
+    background: white;
+    box-shadow: 0px 8px 16px -8px fade(black, 20%);
+    max-width: 50%;
+    pointer-events: none;
+    padding: 8px 16px;
+    border: 1px solid @df-off-white;
+    font-size: 15px;
+
+    &.hide {
+      display: none;
+    }
+
+    @media @mobile {
+      padding: 0;
+      position: static;
+      max-width: 100%;
+      border: none;
+      box-shadow: none;
+      .display-flex();
+      .justify-content(space-between);
+    }
+
+    b { padding-right: 20px }
+    .footage {
+      white-space: nowrap;
+      display: block;
+    }
+  }
+}
