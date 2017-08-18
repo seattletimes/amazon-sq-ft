@@ -4,87 +4,6 @@ main.interactive {
   max-width: 630px;
 }
 
-.output {
-  position: relative;
-}
-
-.re-collapse {
-  position: absolute;
-  right: 0;
-  top: 0;
-  border: 1px solid @df-light-gray;
-  border-radius: 0;
-  background: white;
-  padding: 4px 8px;
-
-  @media @mobile {
-    position: static;
-    display: block;
-    margin: auto;
-  }
-
-  &:hover, &:focus {
-    background: @df-light-gray;
-  }
-}
-
-.bar-container {
-  clear: left;
-  .display-flex();
-
-  .bar {
-    height: 16px;
-    background: @st-light-blue;
-    display: inline-block;
-    vertical-align: middle;
-  }
-
-  &:nth-child(2n) .bar {
-    background: @st-dark-blue;
-  }
-
-  .detail {
-    display: inline-block;
-    color: @df-dark-gray;
-    font-size: 15px;
-    transition: opacity .2s linear;
-    padding-left: 10px;
-  }
-
-  &.amazon {
-    display: block;
-
-    .bar {
-      display: block;
-    }
-  }
-}
-
-.collapsed {
-  .detail {
-    display: none;
-  }
-
-  .bar-container {
-    clear: none;
-    display: block;
-  }
-
-  .bar {
-    float: left;
-  }
-
-  .re-collapse {
-    display: none;
-  }
-}
-
-.faded {
-  .detail {
-    opacity: 0;
-  }
-}
-
 .aspect-ratio {
   position: relative;
 
@@ -116,6 +35,7 @@ svg.tree-map {
     stroke-width: 1px;
     fill: fade(white, 10%);
     filter: url(#blurry);
+    transition: opacity .1s linear;
   }
 
   .binary-group {
