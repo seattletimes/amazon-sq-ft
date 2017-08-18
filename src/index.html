@@ -11,7 +11,25 @@
         <h3>Amazon vs the next <%= csv.realestate.length - 1 %> companies</h3>
 
         <div class="tree-container">
-          <svg class="tree-map"></svg>
+          <div class="aspect-ratio">
+            <svg class="tree-map">
+              <defs>
+                <filter id="color-shift">
+                  <feComponentTransfer>
+                    <feFuncR type="table" tableValues="1 1 0 0"></feFuncR>
+                    <feFuncR type="table" tableValues="1 0 1 0"></feFuncR>
+                    <feFuncR type="table" tableValues="0 1 1 0"></feFuncR>
+                  </feComponentTransfer>
+                </filter>
+                <filter id="flood-box">
+                  <feFlood x="10%" y="10%" width="80%" height="80%" flood-color="black" flood-opacity="0.5"></feFlood>
+                </filter>
+                <filter id="blurry">
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="10">
+                </filter>
+              </defs>
+            </svg>
+          </div>
           <div class="details"></div>
         </div>
       </main>

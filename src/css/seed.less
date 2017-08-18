@@ -85,18 +85,46 @@ main.interactive {
   }
 }
 
+.aspect-ratio {
+  position: relative;
+
+  &::before {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+  }
+
+  svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
 svg.tree-map {
+  width: 100%;
+
   .company {
     transition: all .1s linear;
   }
 
+  .focus-rectangle {
+    opacity: 0;
+    stroke: fade(black, 80%);
+    stroke-width: 1px;
+    fill: fade(white, 10%);
+    filter: url(#blurry);
+  }
+
   .binary-group {
-    overflow: visible;
 
     &:hover, &:focus {
 
-      & > .company {
-        fill: @df-blue !important;
+      & > .focus-rectangle {
+        // fill: @df-blue !important;
+        opacity: 1;
       }
     }
   }
@@ -105,6 +133,7 @@ svg.tree-map {
     font-size: 200px;
     fill: white;
     font-weight: bold;
+    pointer-events: none;
   }
 }
 

@@ -10,58 +10,6 @@ var colors = require("./lib/colors");
 var lookup = {};
 window.offices.forEach(o => lookup[o.employer] = o.ft);
 
-/*
-var offices = window.offices.slice().sort((a, b) => b.ft - a.ft);
-var amazon = offices.shift();
-
-var output = $.one(".output");
-
-offices.forEach(function(item) {
-  var container = document.createElement("div");
-  container.className = "bar-container";
-  var percent = (item.ft / amazon.ft * 100).toFixed(2);
-  container.innerHTML = `
-<div class="bar" style="width: ${percent}%"></div>
-<div class="detail">
-  ${item.employer.trim()} - ${item.ft.toLocaleString().replace(/\.0+$/, "")} ft<sup>2</sup>
-</div>
-  `;
-  output.appendChild(container);
-});
-
-var uncollapse = function(e) {
-  if (e.target.classList.contains("re-collapse")) return;
-  var flip = $(".bar-container", output).map(function(element) {
-    var bar = element.querySelector(".bar");
-    return {
-      element: element.querySelector(".bar"),
-      first: bar.getBoundingClientRect()
-    }
-  });
-  output.classList.remove("collapsed");
-  output.classList.add("faded");
-  flip.forEach(function(item) {
-    var last = item.element.getBoundingClientRect();
-    var dx = item.first.left - last.left;
-    var dy = item.first.top - last.top;
-    item.element.style.transform = `translateX(${dx}px) translateY(${dy}px)`;
-    item.element.style.transition = "none";
-  });
-  requestAnimationFrame(function() {
-    output.classList.remove("faded");
-    flip.forEach(function(item) {
-      item.element.style.transition = "all .5s ease-in-out";
-      item.element.style.transform = "";
-    });
-  });
-};
-
-output.addEventListener("click", uncollapse);
-
-$.one(".re-collapse").addEventListener("click", () => output.classList.toggle("collapsed"));
-*/
-
-
 //build a binary tree of offices
 var splitItems = function(items) {
   if (items.length < 2) return items[0] || null;
@@ -88,6 +36,8 @@ var size = Math.sqrt(tree.ft);
 var container = $.one(".tree-container");
 var svg = $.one("svg.tree-map");
 svg.setAttribute("viewBox", `0 0 ${size} ${size}`);
+// svg.setAttribute("width", size);
+// svg.setAttribute("height", size);
 var caption = $.one(".tree-container .details");
 
 var makeSVG = tag => document.createElementNS(ns, tag);
@@ -139,11 +89,22 @@ var drawItems = function(node, g, x, y, width, height) {
         x: nx,
         y: ny,
         width: nw,
-        height: nh,
-        "data-employer": branch.employer
+        height: nh
       });
+      group.setAttribute("data-employer", branch.employer);
       rect.style.fill = getColor();
       group.appendChild(rect);
+      var focusRect = makeSVG("rect");
+      var offset = 10;
+      setAttributes(focusRect, {
+        "class": "focus-rectangle",
+        x: nx + offset,
+        y: ny + offset,
+        width: nw - offset * 2,
+        height: nh - offset * 2,
+        "vector-effect": "non-scaling-stroke"
+      });
+      group.appendChild(focusRect);
       if (branch.employer == "Amazon") {
         var text = makeSVG("text");
         setAttributes(text, {
@@ -162,6 +123,16 @@ var drawItems = function(node, g, x, y, width, height) {
 };
 
 drawItems(tree, svgRoot, 0, 0, size, size);
+
+var everyoneElse = $.one(".binary-group:nth-child(2)", svg);
+var bounds = everyoneElse.getBBox();
+var text = makeSVG("text");
+setAttributes(text, {
+  x: bounds.x + 30,
+  y: bounds.y + 180
+});
+text.innerHTML = text.innerText = "Everyone else";
+everyoneElse.appendChild(text);
 
 var formatBigNumber = function(n) {
   if (n > 1000000) {
