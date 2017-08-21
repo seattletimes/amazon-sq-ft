@@ -6,6 +6,7 @@ require("component-responsive-frame/child");
 
 var $ = require("./lib/qsa");
 var colors = require("./lib/colors");
+var delegate = require("./lib/delegate");
 
 var lookup = {};
 window.offices.forEach(o => lookup[o.employer] = o.ft);
@@ -36,8 +37,8 @@ var size = Math.sqrt(tree.ft);
 var container = $.one(".tree-container");
 var svg = $.one("svg.tree-map");
 svg.setAttribute("viewBox", `0 0 ${size} ${size}`);
-// svg.setAttribute("width", size);
-// svg.setAttribute("height", size);
+svg.setAttribute("width", size);
+svg.setAttribute("height", size);
 var caption = $.one(".tree-container .details");
 
 var makeSVG = tag => document.createElementNS(ns, tag);
@@ -147,12 +148,7 @@ var formatBigNumber = function(n) {
 var lastItem = null;
 var onPoint = function(e) {
   e.preventDefault();
-  var closest = e.target;
-  while (!closest.hasAttribute("data-employer")) {
-    closest = closest.parentNode;
-    if (closest == svgRoot) return;
-  }
-  var employer = closest.getAttribute("data-employer");
+  var employer = this.getAttribute("data-employer");
   var footage = lookup[employer];
   if (lastItem != employer) {
     caption.innerHTML = `
@@ -180,5 +176,5 @@ var onPoint = function(e) {
   caption.classList.remove("hide");
 };
 
-["mousemove", "click", "touchstart"].forEach(event => svg.addEventListener(event, onPoint));
+["mousemove", "click", "touchstart"].forEach(event => delegate(svg, event, "[data-employer]", onPoint));
 svg.addEventListener("mouseleave", () => caption.classList.add("hide"));
