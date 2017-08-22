@@ -64,7 +64,7 @@ var getColor = () => palette[colorInt++ % palette.length];
 
 var drawItems = function(node, g, x, y, width, height) {
   var { left, right } = node;
-  var tall = width < height;
+  var tall = width <= height;
   [left, right].forEach(function(branch, isRight) {
     var percentage = branch.ft / node.ft;
     var nx, ny, nw, nh;
@@ -147,14 +147,19 @@ var formatBigNumber = function(n) {
 
 var lastItem = null;
 var onPoint = function(e) {
-  e.preventDefault();
+  // e.preventDefault();
+  $(".selected", svg).forEach(el => el.setAttribute("class", el.getAttribute("class").replace(/\s?selected\s?/, "")));
   var employer = this.getAttribute("data-employer");
+  this.setAttribute("class", this.getAttribute("class") + " selected");
   var footage = lookup[employer];
   if (lastItem != employer) {
     caption.innerHTML = `
-  <b>${employer}</b>
+  <span>
+    <span class="mobile-only selection">Selected:</span>
+    <b>${employer}</b>
+  </span>
   <span class="footage">
-    ${formatBigNumber(footage)} ft<sup>2</sup>
+    ${formatBigNumber(footage)} sq. ft.
   </span>
     `;
   }
@@ -176,5 +181,5 @@ var onPoint = function(e) {
   caption.classList.remove("hide");
 };
 
-["mousemove", "click", "touchstart"].forEach(event => delegate(svg, event, "[data-employer]", onPoint));
+["mousemove", "click"].forEach(event => delegate(svg, event, "[data-employer]", onPoint));
 svg.addEventListener("mouseleave", () => caption.classList.add("hide"));

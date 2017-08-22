@@ -8,9 +8,9 @@
 
     <responsive-child>
       <main class="interactive">
-        <h3>Amazon vs. the next <%= csv.realestate.length - 1 %> companies</h3>
+        <h3>How many companies does it take to equal Amazon’s office space in Seattle?</h3>
 
-        <p>Chatter goes here.
+        <p>It takes <%= csv.realestate.length - 1 %> companies to match Amazon's 8.1 million square feet of office space in Seattle. Hover or tap on a rectangle to see details about each company's real estate.
 
         <div class="tree-container">
           <div class="aspect-ratio">
@@ -32,7 +32,13 @@
               </defs>
             </svg>
           </div>
-          <div class="details"></div>
+          <div class="details hide"></div>
+        </div>
+        <div class="source">
+          Source: CoStar
+        </div>
+        <div class="credits">
+          Thomas Wilburn / The Seattle Times
         </div>
       </main>
     </responsive-child>
