@@ -64,7 +64,7 @@ var getColor = () => palette[colorInt++ % palette.length];
 
 var drawItems = function(node, g, x, y, width, height) {
   var { left, right } = node;
-  var tall = width <= height;
+  var tall = width < height;
   [left, right].forEach(function(branch, isRight) {
     var percentage = branch.ft / node.ft;
     var nx, ny, nw, nh;
